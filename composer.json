@@ -1,0 +1,24 @@
+{
+  "name": "northrook/latte-symfony-cache",
+  "type": "library",
+  "description": "Integrates symfony/cache into the nette/latte templating system.",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Northrook\\Latte\\": ""
+    }
+  },
+  "authors": [
+    {
+      "name": "Martin",
+      "email": "mn@northrook.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.2",
+    "latte/latte": "@stable",
+    "symfony/cache": "@stable"
+  }
+}
