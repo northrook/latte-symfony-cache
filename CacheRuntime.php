@@ -2,7 +2,6 @@
 
 namespace Northrook\Latte;
 
-use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
@@ -23,10 +22,10 @@ final readonly class CacheRuntime
         }
 
         try {
-            return $this->cache->get( $assetId, $callback );
+            return $this->cache?->get( $assetId, $callback );
         }
-        catch ( InvalidArgumentException $exception ) {
-            $this->logger->error(
+        catch ( \Throwable $exception ) {
+            $this->logger?->error(
                 "Exception thrown when using {runtime}: {message}.",
                 [
                     'runtime'   => $this::class,
@@ -34,7 +33,7 @@ final readonly class CacheRuntime
                     'exception' => $exception,
                 ],
             );
-            return $callback();
+            return $callback( null );
         }
     }
 }

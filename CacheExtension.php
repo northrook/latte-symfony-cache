@@ -5,8 +5,7 @@ declare( strict_types = 1 );
 namespace Northrook\Latte;
 
 use Latte;
-use Northrook\Latte\CacheNode;
-use Northrook\Latte\CacheRuntime;
+use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 
 
@@ -15,7 +14,10 @@ use Symfony\Contracts\Cache\CacheInterface;
  */
 final class CacheExtension extends Latte\Extension
 {
-    public function __construct( private readonly ?CacheInterface $cacheInterface ) {}
+    public function __construct(
+        private readonly ?CacheInterface  $cacheInterface,
+        private readonly ?LoggerInterface $logger = null,
+    ) {}
 
     public function getTags() : array {
         return [ 'cached' => [ CacheNode::class, 'create' ] ];
@@ -25,6 +27,6 @@ final class CacheExtension extends Latte\Extension
      * Add to the {@see CacheRuntime} to the `$this->global` Latte variable.
      */
     public function getProviders() : array {
-        return [ 'cacheRuntime' => new CacheRuntime( $this->cacheInterface ) ];
+        return [ 'cacheRuntime' => new CacheRuntime( $this->cacheInterface, $this->logger ) ];
     }
 }

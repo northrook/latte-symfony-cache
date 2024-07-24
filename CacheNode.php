@@ -9,10 +9,8 @@ declare( strict_types = 1 );
 
 namespace Northrook\Latte;
 
-use DateInterval;
 use Latte\Compiler\NodeHelpers;
 use Latte\Compiler\Nodes\AreaNode;
-use Latte\Compiler\Nodes\Php\ArgumentNode;
 use Latte\Compiler\Nodes\Php\Expression\ArrayNode;
 use Latte\Compiler\Nodes\StatementNode;
 use Latte\Compiler\Position;
@@ -39,10 +37,12 @@ class CacheNode extends StatementNode
         $node->args = $tag->parser->parseArguments();
         [ $node->content, $endTag ] = yield;
         $node->endLine = $endTag?->position;
+
+        $node->parseCacheArguments();
         return $node;
     }
 
-    public function parseCacheArguments( PrintContext $context ) : void {
+    public function parseCacheArguments() : void {
 
         foreach ( $this->args->toArguments() as $i => $argumentNode ) {
 
@@ -63,7 +63,7 @@ class CacheNode extends StatementNode
                 }
 
                 if ( \is_string( $value ) ) {
-                    $value = DateInterval::createFromDateString( $value );
+                    $value = \DateInterval::createFromDateString( $value );
                 }
 
                 if ( $value instanceof \DateInterval ) {
@@ -79,8 +79,6 @@ class CacheNode extends StatementNode
     }
 
     public function print( PrintContext $context ) : string {
-
-        $this->parseCacheArguments( $context );
 
         return $context->format(
             <<<'XX'
