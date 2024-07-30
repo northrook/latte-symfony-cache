@@ -17,10 +17,11 @@ final class CacheExtension extends Latte\Extension
     public function __construct(
         private readonly ?CacheInterface  $cacheInterface,
         private readonly ?LoggerInterface $logger = null,
+        private readonly string           $tagName = 'cache',
     ) {}
 
     public function getTags() : array {
-        return [ 'cached' => [ CacheNode::class, 'create' ] ];
+        return [ $this->tagName => [ CacheNode::class, 'create' ] ];
     }
 
     /**
