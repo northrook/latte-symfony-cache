@@ -7,7 +7,7 @@
 
 declare( strict_types = 1 );
 
-namespace Northrook\Latte;
+namespace Northrook\Latte\Nodes;
 
 use Latte\Compiler\NodeHelpers;
 use Latte\Compiler\Nodes\AreaNode;
@@ -21,8 +21,8 @@ use Latte\Compiler\Tag;
 /**
  * {cache} ... {/cache}
  */
-class CacheNode extends StatementNode
-{
+class CacheNode extends StatementNode {
+
     public ArrayNode $args;
     public AreaNode  $content;
     public ?Position $endLine;
@@ -49,7 +49,7 @@ class CacheNode extends StatementNode
             $key   = (string) $argumentNode->name;
             $value = NodeHelpers::toValue( $argumentNode->value );
 
-            if ( $i === 0 && ( !$key || $key === 'id' ) ) {
+            if ( $i === 0 && ( ! $key || $key === 'id' ) ) {
                 $this->cacheId = \is_string( $value )
                     ? $this->normalizeKey( $value )
                     : $this->hashKey( $value );

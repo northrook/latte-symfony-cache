@@ -2,12 +2,13 @@
 
 declare( strict_types = 1 );
 
-namespace Northrook\Latte;
+namespace Northrook\Latte\Extension;
 
 use Latte;
+use Northrook\Latte\CacheRuntime;
+use Northrook\Latte\Nodes\CacheNode;
 use Psr\Log\LoggerInterface;
 use Symfony\Contracts\Cache\CacheInterface;
-
 
 /**
  * Integrates {@see CacheInterface} into the {@see Latte\Engine} using a {@see Latte\Compiler\Tag}.
